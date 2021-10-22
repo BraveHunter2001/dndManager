@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dndManager" target="1.8" />
+      <module name="dndManager" target="10" />
     </bytecodeTargetLevel>
   </component>
 </project>

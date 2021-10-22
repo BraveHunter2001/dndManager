@@ -7,8 +7,12 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
     private String message;
+    private String table;
+    private DBTablesInfo dbTablesInfo = DBTablesInfo.getInstance();;
 
     public void init() {
+
+        table = new CharactersTable(dbTablesInfo.GetCharactersALL()).getHTMLTables();
         message = "Hello World!";
     }
 
@@ -18,7 +22,7 @@ public class HelloServlet extends HttpServlet {
         // Hello
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println(table);
         out.println("</body></html>");
     }
 
