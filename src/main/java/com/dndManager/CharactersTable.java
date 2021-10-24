@@ -2,7 +2,7 @@ package com.dndManager;
 
 import java.util.List;
 
-public class CharactersTable implements ITables{
+public class CharactersTable implements ITablesHTML {
     List<ICharacterLine> characters;
 
     public CharactersTable(List<ICharacterLine> characters)
@@ -13,19 +13,12 @@ public class CharactersTable implements ITables{
     @Override
     public String getHTMLTables() {
         String ans = "";
-        ans += "<table>";
-        ans += "<tr>" +
-                "<th>Id</th>" +
-                "<th>Name</th>"+
-                "<th>Apperance</th>"+
-                "<th>Location</th>"+
-                "<th>Meet</th>"+
-                "</tr>";
+
         for(var ch: characters)
         {
             ans+= ch.GetRowHTML();
         }
-        ans += "</table>";
+
         return ans;
     }
 }

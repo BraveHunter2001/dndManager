@@ -70,6 +70,23 @@ public class DBTablesInfo implements IDBTablesInfo{
 
     @Override
     public List<ITaskLine> GetTasksALL() {
+        try
+        {
+            var tasks = new ArrayList<ITaskLine>();
+            var res = db.ExecuteQuery("Select * FROM tasks ORDER BY id ASC");
+
+            while (res.next())
+            {
+                tasks.add( new TaskLine(res.getInt("id"),
+                        res.getString("name"),
+                        res.getString("taskstatus")
+                ));
+            }
+            return tasks;
+        }catch (DBFacade.DBNotConnectedException | SQLException e)
+        {
+            e.printStackTrace();
+        }
         return null;
     }
 }

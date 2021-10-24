@@ -2,7 +2,7 @@ package com.dndManager;
 
 import java.util.List;
 
-public class TasksTable implements ITables
+public class TasksTable implements ITablesHTML
 {
     List<ITaskLine> tasks;
 
@@ -14,17 +14,10 @@ public class TasksTable implements ITables
     @Override
     public String getHTMLTables() {
         String ans = "";
-        ans += "<table>";
-        ans += "<tr>" +
-                "<th>Id</th>" +
-                "<th>Name</th>"+
-                "<th>Meet</th>"+
-                "</tr>";
         for(var ts: tasks)
         {
             ans+= ts.GetRowHTML();
         }
-        ans += "</table>";
         return ans;
     }
 }
