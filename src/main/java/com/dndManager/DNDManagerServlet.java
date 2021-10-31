@@ -18,6 +18,7 @@ public class DNDManagerServlet extends HttpServlet {
 
     private void viewMain(HttpServletRequest request, HttpServletResponse response, Localizator loc) throws IOException
     {
+
         PrintWriter out = response.getWriter();
         out.println("<html>");
         out.println("<head><title>"+loc.getResource("title")+"</title>\n" +
@@ -37,6 +38,7 @@ public class DNDManagerServlet extends HttpServlet {
 
     private String viewTabelCharaters(Localizator loc)
     {
+
         String ans = "";
         ans +="<div class =\"characters\">";
         ans += "<h2>"+loc.getResource("headerCharacters")+"</h2>\n";
@@ -77,6 +79,9 @@ public class DNDManagerServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8"); // очень надо
+        response.setContentType("text/html;charset=UTF-8"); // установка кодировки
+
         Localizator loc = Localizator.getInstance(request);
         loc.setLang(request, false);
         viewMain(request,response, loc);
