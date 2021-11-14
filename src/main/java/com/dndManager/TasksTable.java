@@ -2,7 +2,7 @@ package com.dndManager;
 
 import java.util.List;
 
-public class TasksTable implements ITablesHTML
+public class TasksTable implements ITable
 {
     List<ITaskLine> tasks;
 

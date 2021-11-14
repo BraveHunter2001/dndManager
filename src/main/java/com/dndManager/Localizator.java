@@ -13,13 +13,17 @@ public class Localizator {
 
     private final Languages defaultLang = Languages.en;
 
-    static Localizator instance;
-    public static Localizator getInstance(HttpServletRequest request) {
-        if(instance == null) {
-            instance = new Localizator();
-            instance.setLang(request, true);
-        }
-        return instance;
+
+    public Localizator()
+    {
+        this.setLang(defaultLang);
+    }
+
+    public Localizator(HttpServletRequest request) {
+        this.setLang(request, true);
+    }
+    public void init(Languages lang) {
+        this.setLang(lang);
     }
 
     public void setLang(HttpServletRequest request, boolean setDefaultIfNull) {
@@ -38,6 +42,21 @@ public class Localizator {
                 return;
         }
         currentResource = ResourceBundle.getBundle("tables", new Locale(lang.name()));
+        currentLang = lang;
+    }
+
+    public void setLang(Languages lang)
+    {
+        try {
+            if(lang == currentLang)
+                return;
+        }
+        catch (Exception e)
+        {
+            lang = defaultLang;
+        }
+        currentResource = ResourceBundle.getBundle("tables", new Locale(lang.name()));
+        currentLang = lang;
     }
 
     public String getResource(String key)

@@ -1,6 +1,6 @@
 package com.dndManager;
 
-public interface ITablesHTML {
+public interface ITable {
 
     String getHTMLTables();
 }

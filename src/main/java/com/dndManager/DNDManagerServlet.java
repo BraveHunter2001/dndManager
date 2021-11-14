@@ -1,92 +1,69 @@
 package com.dndManager;
 
 import java.io.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "CharactersTableServlet", value = "/CharactersTable-servlet")
+@WebServlet(name = "CharactersTableServlet", value = "/")
 public class DNDManagerServlet extends HttpServlet {
-    ITablesHTML tableCharacters,tableTasks;
+    ITable tableCharacters,tableTasks;
 
     private DBTablesInfo dbTablesInfo = DBTablesInfo.getInstance();
 
     public void init() {
+        System.out.println("[Init servlet]");
         tableCharacters = new CharactersTable(dbTablesInfo.GetCharactersALL());
         tableTasks = new TasksTable(dbTablesInfo.GetTasksALL());
 
     }
 
-    private void viewMain(HttpServletRequest request, HttpServletResponse response, Localizator loc) throws IOException
+    private void getAllTableCharacters(HttpServletRequest request)
     {
-
-        PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head><title>"+loc.getResource("title")+"</title>\n" +
-                "<link rel=\"stylesheet\" href=\"styles.css\">\n" +
-                "<meta charset=\"utf-8\">"+
-                "</head>");
-        out.println("<body>");
-        out.println("<div class=\"tables\">");
-        out.println(viewTabelCharaters(loc));
-        out.println(viewTabelTasks(tableTasks,loc));
-        out.println("</div");
-        out.println("</body>");
-        out.println("</html>");
-        out.close();
-
+        request.setAttribute("tableCharacters", tableCharacters);
     }
 
-    private String viewTabelCharaters(Localizator loc)
+    private void getAllTableTask(HttpServletRequest request)
     {
-
-        String ans = "";
-        ans +="<div class =\"characters\">";
-        ans += "<h2>"+loc.getResource("headerCharacters")+"</h2>\n";
-        ans += "<table>";
-        ans += "<tr>" +
-                "<th>"+loc.getResource("id")+"</th>" +
-                "<th>"+loc.getResource("name")+"</th>"+
-                "<th>"+loc.getResource("apperance")+"</th>"+
-                "<th>"+loc.getResource("location")+"</th>"+
-                "<th>"+loc.getResource("status")+"</th>"+
-                "</tr>";
-        ans += tableCharacters.getHTMLTables();
-        ans += "</table>";
-        ans +="</div>";
-        return ans;
+        request.setAttribute("tableTasks", tableTasks);
     }
 
-    private String viewTabelTasks(ITablesHTML task, Localizator loc)
-    {
-        String ans = "";
-        ans +="<div class =\"tasks\">";
-        ans += "<h2>"+loc.getResource("headerTasks")+"</h2>\n";
-        ans += "<table>";
-        ans += "<tr>" +
-                "<th>"+loc.getResource("id")+"</th>" +
-                "<th>"+loc.getResource("name")+"</th>"+
-                "<th>"+loc.getResource("status")+"</th>"+
-                "</tr>";
-        ans += task.getHTMLTables();
-        ans += "</table>";
-        ans +="</div>";
-        return ans;
+    private void setLang(HttpServletRequest request){
+        String langStr = request.getParameter("lang");
+        Localizator.Languages lang;
+        try{
+            lang = Localizator.Languages.valueOf(langStr);
+        }
+        catch (Exception e)
+        {
+            lang = Localizator.Languages.en;
+        }
+        request.setAttribute("lang", lang);
     }
 
-    private ITablesHTML getTaskTableByName(HttpServletRequest request)
+    private void getTaskTableByName(HttpServletRequest request)
     {
-        return new TasksTable(dbTablesInfo.GetTasksByCharacterName(request.getParameter("name")));
+       ITable resTable  = new TasksTable(dbTablesInfo.GetTasksByCharacterName(request.getParameter("name")));
+       request.setAttribute("restasks", resTable);
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,  IOException {
         request.setCharacterEncoding("utf-8"); // очень надо
         response.setContentType("text/html;charset=UTF-8"); // установка кодировки
 
-        Localizator loc = Localizator.getInstance(request);
-        loc.setLang(request, false);
-        viewMain(request,response, loc);
+        setLang(request);
+        getAllTableCharacters(request);
+        getAllTableTask(request);
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+        requestDispatcher.forward(request, response);
     }
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        doGet(request, response);
+    }
 
 
     public void destroy() {

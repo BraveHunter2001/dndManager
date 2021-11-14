@@ -2,7 +2,7 @@ package com.dndManager;
 
 import java.util.List;
 
-public class CharactersTable implements ITablesHTML {
+public class CharactersTable implements ITable {
     List<ICharacterLine> characters;
 
     public CharactersTable(List<ICharacterLine> characters)
