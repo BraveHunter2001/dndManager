@@ -13,9 +13,8 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <div class="backIMG">
-        <h1>404</h1>
-        <h1>PAGE NOT FOUND</h1>
+    <div class="back">
+        <h1>404<br>PAGE NOT FOUND</h1>
     </div>
 </body>
 </html>
