@@ -28,3 +28,10 @@ tr:nth-of-type(2n){
     margin: 5px;
     background: lightgrey;
 }
+
+
+.backIMG{
+    width: 100%;
+    background-image: url("anime-glitch.gif");
+    text-align: center;
+}

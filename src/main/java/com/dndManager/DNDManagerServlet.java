@@ -6,14 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "CharactersTableServlet", value = "/")
+@WebServlet(name = "CharactersTableServlet", value = "/index")
 public class DNDManagerServlet extends HttpServlet {
     ITable tableCharacters,tableTasks;
 
     private DBTablesInfo dbTablesInfo = DBTablesInfo.getInstance();
 
     public void init() {
-        System.out.println("[Init servlet]");
+        System.out.println("[Init servlet] Index");
         tableCharacters = new CharactersTable(dbTablesInfo.GetCharactersALL());
         tableTasks = new TasksTable(dbTablesInfo.GetTasksALL());
 
@@ -44,7 +44,7 @@ public class DNDManagerServlet extends HttpServlet {
 
     private void getTaskTableByName(HttpServletRequest request)
     {
-       ITable resTable  = new TasksTable(dbTablesInfo.GetTasksByCharacterName(request.getParameter("name")));
+       ITable resTable  = new TasksTable(dbTablesInfo.GetTasksByCharacterName(request.getParameter("nameCharacter")));
        request.setAttribute("restasks", resTable);
     }
 
@@ -61,11 +61,12 @@ public class DNDManagerServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        getTaskTableByName(request);
         doGet(request, response);
     }
 
 
     public void destroy() {
+        System.out.println("[Init destroy] Index");
     }
 }
