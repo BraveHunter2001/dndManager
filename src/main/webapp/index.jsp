@@ -53,7 +53,7 @@
             <input type="submit" value="<%= loc.getResource("butt")%>">
     </form>
     <div class ="tasks">
-        <h2><%=loc.getResource("headerTasks")%></h2>
+        <h2><%=loc.getResource("formTask")%></h2>
         <table>
             <tr>
                 <th><%=loc.getResource("id")%></th>
