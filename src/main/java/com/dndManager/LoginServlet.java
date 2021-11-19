@@ -45,7 +45,8 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8"); // очень надо
-        response.setContentType("text/html;charset=UTF-8"); // установка кодировки
+        response.setContentType("text/html;charset=UTF-8");
+        // установка кодировки
         if(checkLogout(request, response)) {
             response.sendRedirect("/dndManager_war_exploded/index");
             return;

@@ -55,7 +55,7 @@ public class LoginManager {
     private void killCookie(Cookie cookie, HttpServletRequest request, HttpServletResponse response)
     {
         cookie.setMaxAge(0);
-        cookie.setPath("/");
+        cookie.setPath("dndManager_war_exploded/");
         response.addCookie(cookie);
     }
 
@@ -65,11 +65,13 @@ public class LoginManager {
         {
             var cookies = request.getCookies();
             var username = Arrays.stream(cookies)
-                    .filter(x -> Objects.equals(x.getName(), "username"))
-                    .findAny().get(); killCookie(username, request, response);
+                    .filter(x -> Objects.equals(x.getName(), "login"))
+                    .findAny().get();
+            killCookie(username, request, response);
             var password = Arrays.stream(cookies)
                     .filter(x -> Objects.equals(x.getName(), "password"))
-                    .findAny().get(); killCookie(password, request, response);
+                    .findAny().get();
+            killCookie(password, request, response);
         } catch (Exception ignored) {}
     }
 }

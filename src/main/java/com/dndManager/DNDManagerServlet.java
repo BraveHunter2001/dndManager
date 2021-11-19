@@ -59,9 +59,11 @@ public class DNDManagerServlet extends HttpServlet {
         var auth = loginManager.tryAuthCookies(request);
         if(auth.getAuthSuccess())
         {
-
+            request.setAttribute("canTask", true);
+            request.setAttribute("nameUsr", auth.getUsername());
         }else{
-
+            loginManager.removeLoginCookies(request, response);
+            request.setAttribute("canTask", false);
         }
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
@@ -71,16 +73,16 @@ public class DNDManagerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         var auth = loginManager.tryAuthCookies(request);
         if(auth.getAuthSuccess()) {
-
+            getTaskTableByName(request);
         }
         else
         {
+            request.setAttribute("canTask", false);
             RequestDispatcher requestDispatcher =
                     request.getRequestDispatcher("login.jsp");
             request.setAttribute("incorrectData", true);
             requestDispatcher.forward(request, response);
         }
-        getTaskTableByName(request);
         doGet(request, response);
     }
 

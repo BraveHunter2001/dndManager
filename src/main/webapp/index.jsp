@@ -6,6 +6,9 @@
     ITable tableCharacters = (ITable) request.getAttribute("tableCharacters");
     ITable tableTasks = (ITable) request.getAttribute("tableTasks");
     ITable resTasks = (ITable) request.getAttribute("restasks");
+    boolean canTask = (boolean)request.getAttribute("canTask");
+    String nameUser = (String) request.getAttribute("nameUsr");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -19,8 +22,12 @@
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=UTF-8");
 %>
+<% if (nameUser == null) {%>
 <a href="/dndManager_war_exploded/login"> LOG IN </a>
-
+<% }else{%>
+<a href="/dndManager_war_exploded/login?logout=true"> LOG OUT </a><br>
+<h3><%= nameUser%></h3>
+<%}%>
 <div class="tables">
     <div class="characters">
         <h2><%=loc.getResource("headerCharacters")%></h2>
@@ -47,7 +54,7 @@
         </table>
     </div>
 </div>
-
+<% if (canTask) {%>
 <div class ="getTasks">
     <form action="" method="post">
         <p><b><%=loc.getResource("namePers") %>:</b><br>
@@ -67,6 +74,7 @@
     </div>
 
 </div>
+<% }%>
 <footer>
     <span class="lang"><%=loc.getResource("changeLang")%>: <a href="?lang=ru"><%=loc.getResource("rusL")%></a>, <a href="?lang=en"> <%= loc.getResource("enL")%></a> </span>
 </footer>
