@@ -12,11 +12,19 @@ public class Localizator {
     private  Languages currentLang;
 
     private final Languages defaultLang = Languages.en;
-
+    private static Localizator instance;
 
     public Localizator()
     {
         this.setLang(defaultLang);
+    }
+
+    public static Localizator getInstance()
+    {
+        if(instance == null) {
+            instance = new Localizator();
+        }
+        return instance;
     }
 
     public Localizator(HttpServletRequest request) {

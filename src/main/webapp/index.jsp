@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.dndManager.*" %>
 <%
-    Localizator loc = new Localizator();
+    Localizator loc = Localizator.getInstance();
     loc.setLang((Localizator.Languages) request.getAttribute("lang"));
     ITable tableCharacters = (ITable) request.getAttribute("tableCharacters");
     ITable tableTasks = (ITable) request.getAttribute("tableTasks");
@@ -19,6 +19,8 @@
     request.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=UTF-8");
 %>
+<a href="/dndManager_war_exploded/login"> LOG IN </a>
+
 <div class="tables">
     <div class="characters">
         <h2><%=loc.getResource("headerCharacters")%></h2>

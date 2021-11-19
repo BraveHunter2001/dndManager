@@ -11,7 +11,7 @@ public class DNDManagerServlet extends HttpServlet {
     ITable tableCharacters,tableTasks;
 
     private DBTablesInfo dbTablesInfo = DBTablesInfo.getInstance();
-
+    private LoginManager loginManager = new LoginManager();
     public void init() {
         System.out.println("[Init servlet] Index");
         tableCharacters = new CharactersTable(dbTablesInfo.GetCharactersALL());
@@ -56,11 +56,30 @@ public class DNDManagerServlet extends HttpServlet {
         getAllTableCharacters(request);
         getAllTableTask(request);
 
+        var auth = loginManager.tryAuthCookies(request);
+        if(auth.getAuthSuccess())
+        {
+
+        }else{
+
+        }
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
         requestDispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        var auth = loginManager.tryAuthCookies(request);
+        if(auth.getAuthSuccess()) {
+
+        }
+        else
+        {
+            RequestDispatcher requestDispatcher =
+                    request.getRequestDispatcher("login.jsp");
+            request.setAttribute("incorrectData", true);
+            requestDispatcher.forward(request, response);
+        }
         getTaskTableByName(request);
         doGet(request, response);
     }
